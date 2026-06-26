@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Juego interactivo medieval: Investiga testimonios y presenta evidencia ante el Rey Felipe V para salvar a los inocentes.">
+    <title>El Juicio del Rey — Investigación Medieval</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ==================== PANTALLA DE INICIO ==================== -->
+    <div id="screen-start" class="screen active">
+        <div class="start-overlay">
+            <div class="start-content">
+                <div class="title-ornament">⚜</div>
+                <h1 class="game-title">El Juicio del Rey</h1>
+                <p class="game-subtitle">Francia, 1321 — La Conspiración de los Leprosos</p>
+                <div class="title-divider">
+                    <span class="divider-ornament">✦</span>
+                </div>
+                <p class="game-description">
+                    Una ola de envenenamientos ha sembrado el pánico en el reino. Los rumores culpan a los leprosos de contaminar los pozos. 
+                    Como consejero real, debes investigar la verdad antes de que el Rey Felipe V decida el destino de cientos de inocentes.
+                </p>
+                <p class="game-instruction">
+                    Interroga a los testigos, recolecta testimonios y separa los hechos de los rumores. 
+                    El destino del reino depende de tu juicio.
+                </p>
+                <button id="btn-start" class="btn-medieval btn-primary" onclick="startGame()">
+                    <span class="btn-icon">⚔</span>
+                    Comenzar Investigación
+                    <span class="btn-icon">⚔</span>
+                </button>
+                <div class="credits">
+                    <p>Creado por:</p>
+                    <p>Dante Stivaktas Napolitan · Salma Gómez Widman</p>
+                    <p>Ángel Claudio Dzul González · Marco Antonio Sánchez Ponce</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FASE 1: INVESTIGACIÓN ==================== -->
+    <div id="screen-investigation" class="screen">
+        
+        <!-- Header -->
+        <header id="game-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <span class="header-ornament">⚜</span>
+                    <h2>Fase de Investigación</h2>
+                </div>
+                <div class="header-center">
+                    <span id="card-counter" class="card-counter">
+                        <span class="counter-icon">📜</span>
+                        Testimonios: <span id="counter-current">0</span> / <span id="counter-total">6</span>
+                    </span>
+                </div>
+                <div class="header-right">
+                    <span class="header-ornament">⚜</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Área de instrucción -->
+        <div id="instruction-banner" class="instruction-banner">
+            <p>Haz clic en cada personaje para interrogarlo y recolectar sus testimonios.</p>
+        </div>
+
+        <!-- Personajes -->
+        <div id="characters-area" class="characters-area">
+            
+            <!-- Aldeano -->
+            <div class="character-panel" id="char-aldeano" onclick="openDialogue('aldeano')">
+                <div class="character-glow"></div>
+                <div class="character-frame">
+                    <img src="assets/aldeano_portrait.png" alt="El Aldeano" class="character-portrait">
+                </div>
+                <div class="character-name-plate">
+                    <span class="name-ornament">—</span>
+                    <span class="character-name">El Aldeano</span>
+                    <span class="name-ornament">—</span>
+                </div>
+                <div class="character-badge" id="badge-aldeano">
+                    <span>0</span>/2
+                </div>
+            </div>
+
+            <!-- Monje -->
+            <div class="character-panel" id="char-monje" onclick="openDialogue('monje')">
+                <div class="character-glow"></div>
+                <div class="character-frame">
+                    <img src="assets/monje_portrait.png" alt="El Monje" class="character-portrait">
+                </div>
+                <div class="character-name-plate">
+                    <span class="name-ornament">—</span>
+                    <span class="character-name">El Monje</span>
+                    <span class="name-ornament">—</span>
+                </div>
+                <div class="character-badge" id="badge-monje">
+                    <span>0</span>/2
+                </div>
+            </div>
+
+            <!-- Leproso -->
+            <div class="character-panel" id="char-leproso" onclick="openDialogue('leproso')">
+                <div class="character-glow"></div>
+                <div class="character-frame">
+                    <img src="assets/leproso_portrait.png" alt="El Leproso" class="character-portrait">
+                </div>
+                <div class="character-name-plate">
+                    <span class="name-ornament">—</span>
+                    <span class="character-name">El Leproso</span>
+                    <span class="name-ornament">—</span>
+                </div>
+                <div class="character-badge" id="badge-leproso">
+                    <span>0</span>/2
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventario -->
+        <div id="inventory-section" class="inventory-section">
+            <div class="inventory-header">
+                <span class="inv-ornament">✦</span>
+                <h3>Inventario de Testimonios</h3>
+                <span class="inv-ornament">✦</span>
+            </div>
+            <div id="inventory-slots" class="inventory-slots">
+                <div class="inv-slot empty" id="slot-0"><span class="slot-number">I</span></div>
+                <div class="inv-slot empty" id="slot-1"><span class="slot-number">II</span></div>
+                <div class="inv-slot empty" id="slot-2"><span class="slot-number">III</span></div>
+                <div class="inv-slot empty" id="slot-3"><span class="slot-number">IV</span></div>
+                <div class="inv-slot empty" id="slot-4"><span class="slot-number">V</span></div>
+                <div class="inv-slot empty" id="slot-5"><span class="slot-number">VI</span></div>
+            </div>
+            <!-- Botón Ir ante el Rey -->
+            <button id="btn-go-king" class="btn-medieval btn-king hidden" onclick="goToKing()">
+                <span class="btn-icon">👑</span>
+                Ir ante el Rey Felipe V
+                <span class="btn-icon">👑</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL DE DIÁLOGO ==================== -->
+    <div id="dialogue-modal" class="modal-overlay hidden">
+        <div class="dialogue-box">
+            <div class="dialogue-header">
+                <img id="dialogue-portrait" src="" alt="" class="dialogue-portrait-small">
+                <div class="dialogue-name-area">
+                    <h3 id="dialogue-name"></h3>
+                    <p id="dialogue-role" class="dialogue-role"></p>
+                </div>
+                <button class="btn-close-dialogue" onclick="closeDialogue()">✕</button>
+            </div>
+            <div class="dialogue-body">
+                <p id="dialogue-text" class="dialogue-text"></p>
+            </div>
+            <div class="dialogue-actions">
+                <button id="btn-dialogue-next" class="btn-medieval btn-dialogue" onclick="nextDialogue()">
+                    Continuar <span class="btn-arrow">→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== NOTIFICACIÓN DE TARJETA ==================== -->
+    <div id="card-notification" class="card-notification hidden">
+        <div class="notif-content">
+            <div class="notif-icon">📜</div>
+            <p class="notif-text">¡Nuevo testimonio obtenido!</p>
+            <p id="notif-card-text" class="notif-card-preview"></p>
+        </div>
+    </div>
+
+    <!-- ==================== FASE 2: JUICIO ANTE EL REY ==================== -->
+    <div id="screen-trial" class="screen">
+        <div class="trial-layout">
+            <!-- Rey -->
+            <div class="king-section">
+                <div class="king-frame">
+                    <img src="assets/king_portrait.png" alt="Rey Felipe V" class="king-portrait">
+                </div>
+                <div class="king-name-plate">
+                    <span class="name-ornament">—</span>
+                    <span class="king-name">Rey Felipe V de Francia</span>
+                    <span class="name-ornament">—</span>
+                </div>
+                <div class="king-speech-bubble">
+                    <p id="king-speech">Consejero, el pueblo clama justicia. Los leprosos son acusados de envenenar nuestros pozos. 
+                    Presentadme vuestra evidencia — seleccionad <strong>3 testimonios</strong> para construir vuestro argumento.</p>
+                </div>
+            </div>
+
+            <!-- Selección de tarjetas -->
+            <div class="trial-cards-section">
+                <div class="trial-header">
+                    <h3>Selecciona 3 testimonios para tu argumento</h3>
+                    <p id="trial-selection-count">Seleccionados: <span id="selected-count">0</span> / 3</p>
+                </div>
+                <div id="trial-cards" class="trial-cards-grid">
+                    <!-- Cards generated by JS -->
+                </div>
+                <button id="btn-present" class="btn-medieval btn-present hidden" onclick="presentEvidence()">
+                    <span class="btn-icon">⚖</span>
+                    Presentar Evidencia al Rey
+                    <span class="btn-icon">⚖</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PANTALLA DE VICTORIA ==================== -->
+    <div id="screen-victory" class="screen">
+        <div class="result-overlay result-victory">
+            <div class="result-content">
+                <div class="result-icon">🏆</div>
+                <h1 class="result-title victory-title">¡Victoria!</h1>
+                <div class="result-divider"><span>✦</span></div>
+                <h2 class="result-subtitle">La Razón Prevalece</h2>
+                <p class="result-text">
+                    Vuestras pruebas han sido irrefutables. El Rey Felipe V, convencido por la lógica y la evidencia, 
+                    ha ordenado una investigación real sobre las verdaderas causas de la enfermedad.
+                </p>
+                <p class="result-text">
+                    Los leprosos han sido puestos bajo protección real. Los pozos serán examinados por los médicos de la corte. 
+                    Cientos de vidas inocentes han sido salvadas gracias al pensamiento racional.
+                </p>
+                <div class="result-moral">
+                    <p><em>"El pensamiento crítico y la evidencia superaron a la ignorancia y el miedo. 
+                    La historia recuerda a quienes defendieron la verdad cuando era más fácil creer en la mentira."</em></p>
+                </div>
+                <button class="btn-medieval btn-primary" onclick="restartGame()">
+                    <span class="btn-icon">⚔</span>
+                    Jugar de Nuevo
+                    <span class="btn-icon">⚔</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PANTALLA DE DERROTA ==================== -->
+    <div id="screen-defeat" class="screen">
+        <div class="result-overlay result-defeat">
+            <div class="result-content">
+                <div class="result-icon">💀</div>
+                <h1 class="result-title defeat-title">Derrota</h1>
+                <div class="result-divider"><span>✦</span></div>
+                <h2 class="result-subtitle">La Masacre de los Inocentes</h2>
+                <p class="result-text">
+                    Vuestro argumento incluyó rumores sin fundamento. El Rey Felipe V, consumido por el miedo y la presión popular, 
+                    ha ordenado la persecución y ejecución de todos los leprosos del reino.
+                </p>
+                <p class="result-text">
+                    Cientos de enfermos inocentes han sido asesinados. Los pozos nunca estuvieron envenenados — 
+                    la enfermedad tenía causas naturales que nadie investigó. La ignorancia y el odio triunfaron.
+                </p>
+                <div class="result-moral">
+                    <p><em>"Cuando el miedo reemplaza a la razón, los inocentes pagan el precio. 
+                    La historia nos enseña que los rumores pueden ser tan mortales como cualquier veneno."</em></p>
+                </div>
+                <button class="btn-medieval btn-primary" onclick="restartGame()">
+                    <span class="btn-icon">⚔</span>
+                    Intentar de Nuevo
+                    <span class="btn-icon">⚔</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

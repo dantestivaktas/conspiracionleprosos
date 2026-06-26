@@ -1,0 +1,1372 @@
+/* ============================================
+   EL JUICIO DEL REY — ESTILOS MEDIEVALES
+   ============================================ */
+
+/* ---------- CSS Reset & Variables ---------- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colores medievales */
+    --gold-light: #f4d35e;
+    --gold: #d4a017;
+    --gold-dark: #a67c00;
+    --parchment: #f0e1c0;
+    --parchment-dark: #d4b896;
+    --ink: #2b1810;
+    --ink-light: #4a3728;
+    --blood-red: #8b1a1a;
+    --blood-dark: #5c0e0e;
+    --royal-blue: #1a3a6b;
+    --royal-blue-light: #2a5298;
+    --monk-brown: #5c3d2e;
+    --victory-green: #2d6a4f;
+    --victory-glow: #52b788;
+    --defeat-red: #6b1a1a;
+    --defeat-glow: #cc3333;
+    --shadow-dark: rgba(0, 0, 0, 0.7);
+    --shadow-medium: rgba(0, 0, 0, 0.4);
+
+    /* Fuentes */
+    --font-title: 'Cinzel Decorative', serif;
+    --font-heading: 'Cinzel', serif;
+    --font-body: 'IM Fell English', serif;
+    --font-medieval: 'MedievalSharp', cursive;
+
+    /* Tamaños */
+    --header-height: 60px;
+    --inventory-height: 180px;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--parchment);
+    overflow: hidden;
+    width: 100%;
+    height: 100vh;
+    background: #0a0a0a;
+}
+
+/* ---------- Screen Management ---------- */
+.screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.screen.active {
+    display: flex;
+    opacity: 1;
+    z-index: 10;
+}
+
+.screen.fade-in {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.screen.fade-out {
+    animation: fadeOut 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* ---------- Pantalla de Inicio ---------- */
+#screen-start {
+    background: url('assets/medieval_background.png') center center / cover no-repeat;
+    justify-content: center;
+    align-items: center;
+}
+
+.start-overlay {
+    width: 100%;
+    min-height: 100%;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 2rem 3rem;
+}
+
+.start-content {
+    text-align: center;
+    max-width: 700px;
+    animation: floatIn 1.2s ease-out;
+}
+
+@keyframes floatIn {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.title-ornament {
+    font-size: 3rem;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(212, 160, 23, 0.5);
+    margin-bottom: 0.5rem;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+.game-title {
+    font-family: var(--font-title);
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 900;
+    color: var(--gold-light);
+    text-shadow: 
+        0 2px 4px rgba(0,0,0,0.8),
+        0 0 40px rgba(212, 160, 23, 0.3);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.game-subtitle {
+    font-family: var(--font-heading);
+    font-size: clamp(0.9rem, 2vw, 1.3rem);
+    color: var(--parchment-dark);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.title-divider {
+    margin: 1.5rem auto;
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+    position: relative;
+}
+
+.divider-ornament {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    color: var(--gold);
+    font-size: 1rem;
+    padding: 0 1rem;
+}
+
+.game-description {
+    font-family: var(--font-body);
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    color: var(--parchment);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.game-instruction {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.3vw, 1rem);
+    color: var(--gold);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.credits {
+    margin-top: 1.5rem;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.credits:hover {
+    opacity: 0.9;
+}
+
+.credits p {
+    font-family: var(--font-heading);
+    font-size: clamp(0.55rem, 0.9vw, 0.7rem);
+    color: var(--parchment-dark);
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+}
+
+.credits p:first-child {
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    font-size: clamp(0.5rem, 0.8vw, 0.6rem);
+    margin-bottom: 0.2rem;
+}
+
+/* ---------- Botones Medievales ---------- */
+.btn-medieval {
+    font-family: var(--font-heading);
+    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 2px solid var(--gold-dark);
+    border-radius: 4px;
+    padding: 0.8rem 2rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dark) 100%);
+    color: var(--ink);
+    box-shadow: 
+        0 4px 15px rgba(212, 160, 23, 0.3),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 25px rgba(212, 160, 23, 0.5),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+    background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 100%);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-icon {
+    font-size: 1.1em;
+}
+
+.btn-arrow {
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+}
+
+.btn-medieval:hover .btn-arrow {
+    transform: translateX(4px);
+}
+
+/* ---------- Header ---------- */
+#game-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background: linear-gradient(180deg, rgba(10, 5, 2, 0.95) 0%, rgba(20, 10, 5, 0.9) 100%);
+    border-bottom: 2px solid var(--gold-dark);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.header-content {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-left h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(0.8rem, 1.5vw, 1.1rem);
+    color: var(--gold-light);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.header-ornament {
+    color: var(--gold-dark);
+    font-size: 1.2rem;
+}
+
+.card-counter {
+    font-family: var(--font-heading);
+    font-size: clamp(0.8rem, 1.3vw, 1rem);
+    color: var(--parchment);
+    background: rgba(212, 160, 23, 0.1);
+    border: 1px solid var(--gold-dark);
+    border-radius: 4px;
+    padding: 0.3rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.counter-icon {
+    font-size: 1.1rem;
+}
+
+#counter-current {
+    color: var(--gold-light);
+    font-weight: 700;
+}
+
+/* ---------- Instrucción Banner ---------- */
+.instruction-banner {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    background: url('assets/parchment_texture.png') center center / cover;
+    padding: 0.6rem 1.5rem;
+    text-align: center;
+    border-bottom: 2px solid var(--gold-dark);
+    z-index: 90;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.instruction-banner p {
+    font-family: var(--font-medieval);
+    font-size: clamp(0.85rem, 1.3vw, 1.05rem);
+    color: var(--ink);
+    text-shadow: none;
+}
+
+/* ---------- Investigación Layout ---------- */
+#screen-investigation {
+    background: url('assets/medieval_background.png') center center / cover no-repeat;
+    flex-direction: column;
+}
+
+#screen-investigation::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+    z-index: 0;
+}
+
+/* ---------- Área de Personajes ---------- */
+.characters-area {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    padding: calc(var(--header-height) + 50px) 2rem 200px;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+/* Panel de personaje */
+.character-panel {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.4s ease, filter 0.3s ease;
+    text-align: center;
+    width: clamp(160px, 20vw, 240px);
+}
+
+.character-panel:hover {
+    transform: translateY(-8px) scale(1.03);
+}
+
+.character-panel:hover .character-glow {
+    opacity: 1;
+}
+
+.character-panel.exhausted {
+    cursor: default;
+    filter: brightness(0.6);
+}
+
+.character-panel.exhausted:hover {
+    transform: none;
+}
+
+.character-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 130%;
+    height: 130%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(212, 160, 23, 0.15) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.character-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    border: 3px solid var(--gold-dark);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 
+        0 8px 30px rgba(0,0,0,0.6),
+        inset 0 0 30px rgba(0,0,0,0.3);
+    z-index: 1;
+}
+
+.character-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(212, 160, 23, 0.2);
+    border-radius: 6px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.character-portrait {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.character-panel:hover .character-portrait {
+    transform: scale(1.05);
+}
+
+.character-name-plate {
+    position: relative;
+    z-index: 1;
+    margin-top: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.character-name {
+    font-family: var(--font-heading);
+    font-size: clamp(0.85rem, 1.3vw, 1.1rem);
+    color: var(--gold-light);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.name-ornament {
+    color: var(--gold-dark);
+    font-size: 0.8rem;
+}
+
+.character-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(10, 5, 2, 0.85);
+    border: 1px solid var(--gold-dark);
+    border-radius: 4px;
+    padding: 0.15rem 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    color: var(--gold-light);
+    z-index: 5;
+}
+
+.character-badge.complete {
+    background: rgba(45, 106, 79, 0.85);
+    border-color: var(--victory-glow);
+    color: #b7e4c7;
+}
+
+/* ---------- Inventario ---------- */
+.inventory-section {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 80;
+    background: url('assets/parchment_texture.png') center center / cover;
+    border-top: 3px solid var(--gold-dark);
+    padding: 0.8rem 1.5rem 1rem;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+}
+
+.inventory-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+}
+
+.inventory-header h3 {
+    font-family: var(--font-heading);
+    font-size: clamp(0.75rem, 1.2vw, 0.95rem);
+    color: var(--ink);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.inv-ornament {
+    color: var(--gold-dark);
+    font-size: 0.8rem;
+}
+
+.inventory-slots {
+    display: flex;
+    justify-content: center;
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+    flex-wrap: wrap;
+}
+
+.inv-slot {
+    width: clamp(80px, 12vw, 130px);
+    height: clamp(55px, 8vw, 80px);
+    border: 2px solid var(--gold-dark);
+    border-radius: 6px;
+    background: rgba(43, 24, 16, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.inv-slot.empty {
+    border-style: dashed;
+    opacity: 0.5;
+}
+
+.inv-slot.filled {
+    border-style: solid;
+    opacity: 1;
+    background: rgba(43, 24, 16, 0.3);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+.inv-slot.filled:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    border-color: var(--gold-light);
+}
+
+.slot-number {
+    font-family: var(--font-heading);
+    font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+    color: var(--ink-light);
+    opacity: 0.3;
+}
+
+.slot-content {
+    position: absolute;
+    inset: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0.2rem;
+}
+
+.slot-icon {
+    font-size: clamp(1rem, 1.5vw, 1.4rem);
+    margin-bottom: 0.1rem;
+}
+
+.slot-label {
+    font-family: var(--font-medieval);
+    font-size: clamp(0.5rem, 0.8vw, 0.65rem);
+    color: var(--ink);
+    line-height: 1.2;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.slot-source {
+    font-family: var(--font-heading);
+    font-size: 0.45rem;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.1rem;
+}
+
+/* Botón del Rey */
+.btn-king {
+    display: block;
+    margin: 0.8rem auto 0;
+    background: linear-gradient(180deg, var(--royal-blue-light) 0%, var(--royal-blue) 100%);
+    color: var(--gold-light);
+    border-color: var(--gold);
+    box-shadow: 
+        0 4px 20px rgba(26, 58, 107, 0.5),
+        0 0 30px rgba(212, 160, 23, 0.15);
+    animation: kingBtnPulse 2s ease-in-out infinite;
+}
+
+.btn-king:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 30px rgba(26, 58, 107, 0.7),
+        0 0 40px rgba(212, 160, 23, 0.3);
+    background: linear-gradient(180deg, #3564b0 0%, var(--royal-blue-light) 100%);
+}
+
+@keyframes kingBtnPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(26, 58, 107, 0.5), 0 0 30px rgba(212, 160, 23, 0.15); }
+    50% { box-shadow: 0 4px 25px rgba(26, 58, 107, 0.7), 0 0 45px rgba(212, 160, 23, 0.3); }
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ---------- Modal de Diálogo ---------- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    padding: 1.5rem;
+    animation: fadeIn 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+.dialogue-box {
+    width: 100%;
+    max-width: 650px;
+    background: url('assets/parchment_texture.png') center center / cover;
+    border: 3px solid var(--gold-dark);
+    border-radius: 8px;
+    box-shadow: 
+        0 10px 50px rgba(0,0,0,0.7),
+        inset 0 0 40px rgba(43, 24, 16, 0.1);
+    overflow: hidden;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dialogue-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: linear-gradient(180deg, rgba(43, 24, 16, 0.2) 0%, rgba(43, 24, 16, 0.05) 100%);
+    border-bottom: 2px solid var(--gold-dark);
+}
+
+.dialogue-portrait-small {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--gold-dark);
+    object-fit: cover;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.dialogue-name-area {
+    flex: 1;
+}
+
+.dialogue-name-area h3 {
+    font-family: var(--font-heading);
+    font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+    color: var(--ink);
+    font-weight: 700;
+}
+
+.dialogue-role {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--ink-light);
+    font-style: italic;
+}
+
+.btn-close-dialogue {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--gold-dark);
+    border-radius: 50%;
+    background: rgba(43, 24, 16, 0.1);
+    color: var(--ink);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-close-dialogue:hover {
+    background: rgba(139, 26, 26, 0.2);
+    border-color: var(--blood-red);
+    color: var(--blood-red);
+}
+
+.dialogue-body {
+    padding: 1.5rem 1.5rem;
+    min-height: 100px;
+}
+
+.dialogue-text {
+    font-family: var(--font-body);
+    font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+    color: var(--ink);
+    line-height: 1.8;
+    font-style: italic;
+}
+
+.dialogue-actions {
+    padding: 0.8rem 1.5rem 1.2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-dialogue {
+    background: linear-gradient(180deg, var(--monk-brown) 0%, #3d2518 100%);
+    color: var(--parchment);
+    border-color: var(--gold-dark);
+    font-size: 0.85rem;
+    padding: 0.5rem 1.5rem;
+}
+
+.btn-dialogue:hover {
+    background: linear-gradient(180deg, #6e4b39 0%, var(--monk-brown) 100%);
+}
+
+/* ---------- Card Notification ---------- */
+.card-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 300;
+    background: url('assets/parchment_texture.png') center center / cover;
+    border: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    box-shadow: 
+        0 10px 50px rgba(0,0,0,0.7),
+        0 0 60px rgba(212, 160, 23, 0.3);
+    animation: notifPop 0.5s ease-out;
+    max-width: 400px;
+    width: 90%;
+}
+
+@keyframes notifPop {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+    60% { transform: translate(-50%, -50%) scale(1.05); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.notif-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.notif-text {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--ink);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.notif-card-preview {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--ink-light);
+    font-style: italic;
+    line-height: 1.5;
+    padding: 0.5rem;
+    border-top: 1px solid var(--gold-dark);
+    margin-top: 0.3rem;
+}
+
+/* ---------- Fase 2: Juicio ---------- */
+#screen-trial {
+    background: url('assets/medieval_background.png') center center / cover no-repeat;
+    justify-content: center;
+    align-items: center;
+}
+
+#screen-trial::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
+    z-index: 0;
+}
+
+.trial-layout {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1100px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+/* Rey */
+.king-section {
+    text-align: center;
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+}
+
+.king-frame {
+    width: clamp(100px, 15vw, 160px);
+    aspect-ratio: 3/4;
+    border: 3px solid var(--gold);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 auto 0.8rem;
+    box-shadow: 
+        0 8px 30px rgba(0,0,0,0.6),
+        0 0 40px rgba(212, 160, 23, 0.2);
+}
+
+.king-portrait {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.king-name-plate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.king-name {
+    font-family: var(--font-heading);
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    color: var(--gold-light);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.king-speech-bubble {
+    background: url('assets/parchment_texture.png') center center / cover;
+    border: 2px solid var(--gold-dark);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    position: relative;
+}
+
+.king-speech-bubble::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid var(--gold-dark);
+}
+
+.king-speech-bubble p {
+    font-family: var(--font-body);
+    font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+    color: var(--ink);
+    line-height: 1.6;
+    font-style: italic;
+}
+
+/* Tarjetas del Juicio */
+.trial-cards-section {
+    width: 100%;
+    flex: 1;
+}
+
+.trial-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.trial-header h3 {
+    font-family: var(--font-heading);
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    color: var(--gold-light);
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+#trial-selection-count {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--parchment-dark);
+}
+
+#selected-count {
+    color: var(--gold-light);
+    font-weight: 700;
+}
+
+.trial-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 25vw, 300px), 1fr));
+    gap: 1rem;
+    max-width: 960px;
+    margin: 0 auto 1rem;
+}
+
+.trial-card {
+    background: url('assets/parchment_texture.png') center center / cover;
+    border: 2px solid var(--gold-dark);
+    border-radius: 6px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    min-height: 100px;
+}
+
+.trial-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    border-color: var(--gold);
+}
+
+.trial-card.selected {
+    border-color: var(--gold-light);
+    box-shadow: 
+        0 6px 20px rgba(0,0,0,0.4),
+        0 0 20px rgba(212, 160, 23, 0.3);
+    transform: translateY(-3px);
+}
+
+.trial-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: var(--gold);
+    color: var(--ink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.trial-card-source {
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+}
+
+.trial-card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+}
+
+.trial-card-text {
+    font-family: var(--font-body);
+    font-size: clamp(0.8rem, 1.1vw, 0.9rem);
+    color: var(--ink);
+    line-height: 1.5;
+    font-style: italic;
+}
+
+/* Botón Presentar */
+.btn-present {
+    display: block;
+    margin: 1rem auto 0;
+    background: linear-gradient(180deg, var(--blood-red) 0%, var(--blood-dark) 100%);
+    color: var(--gold-light);
+    border-color: var(--gold);
+    font-size: clamp(0.85rem, 1.3vw, 1rem);
+    padding: 0.7rem 2rem;
+    box-shadow: 0 4px 20px rgba(139, 26, 26, 0.4);
+}
+
+.btn-present:hover {
+    background: linear-gradient(180deg, #a82020 0%, var(--blood-red) 100%);
+    box-shadow: 0 6px 30px rgba(139, 26, 26, 0.6);
+    transform: translateY(-2px);
+}
+
+/* ---------- Pantallas de Resultado ---------- */
+.result-overlay {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 2rem 3rem;
+}
+
+.result-victory {
+    background: 
+        linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(45, 106, 79, 0.4) 50%, rgba(0,0,0,0.6) 100%),
+        url('assets/victory_screen.png') center center / cover no-repeat;
+}
+
+.result-defeat {
+    background: 
+        linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(107, 26, 26, 0.4) 50%, rgba(0,0,0,0.6) 100%),
+        url('assets/defeat_screen.png') center center / cover no-repeat;
+}
+
+.result-content {
+    text-align: center;
+    max-width: 700px;
+    animation: floatIn 1s ease-out;
+}
+
+.result-icon {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.result-title {
+    font-family: var(--font-title);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.victory-title {
+    color: var(--victory-glow);
+    text-shadow: 
+        0 2px 4px rgba(0,0,0,0.8),
+        0 0 40px rgba(82, 183, 136, 0.4);
+}
+
+.defeat-title {
+    color: var(--defeat-glow);
+    text-shadow: 
+        0 2px 4px rgba(0,0,0,0.8),
+        0 0 40px rgba(204, 51, 51, 0.4);
+}
+
+.result-divider {
+    margin: 1rem auto;
+    width: 50%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-divider span {
+    color: var(--gold);
+    background: transparent;
+    padding: 0 1rem;
+    font-size: 0.9rem;
+}
+
+.result-subtitle {
+    font-family: var(--font-heading);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    color: var(--gold-light);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+}
+
+.result-text {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.3vw, 1rem);
+    color: var(--parchment);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.result-moral {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--gold-dark);
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.result-moral p {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    color: var(--gold-light);
+    line-height: 1.7;
+    font-style: italic;
+}
+
+/* ---------- Slot hover tooltip ---------- */
+.inv-slot.filled .slot-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: url('assets/parchment_texture.png') center center / cover;
+    border: 2px solid var(--gold-dark);
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    width: 220px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    z-index: 100;
+    pointer-events: none;
+}
+
+.inv-slot.filled:hover .slot-tooltip {
+    display: block;
+}
+
+.slot-tooltip-text {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--ink);
+    line-height: 1.4;
+    font-style: italic;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-height: 700px) {
+    .characters-area {
+        padding-bottom: 180px;
+        align-items: flex-start;
+        padding-top: calc(var(--header-height) + 40px);
+    }
+
+    .character-panel {
+        width: clamp(120px, 18vw, 180px);
+    }
+
+    .character-frame {
+        aspect-ratio: 4/5;
+    }
+
+    .title-ornament {
+        font-size: 2rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .game-title {
+        font-size: clamp(1.6rem, 4vw, 2.5rem);
+        margin-bottom: 0.3rem;
+    }
+
+    .game-subtitle {
+        font-size: clamp(0.7rem, 1.5vw, 1rem);
+        margin-bottom: 0.8rem;
+    }
+
+    .title-divider {
+        margin: 0.8rem auto;
+    }
+
+    .game-description {
+        font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+        line-height: 1.5;
+        margin-bottom: 0.5rem;
+    }
+
+    .game-instruction {
+        font-size: clamp(0.75rem, 1.1vw, 0.9rem);
+        margin-bottom: 1rem;
+    }
+
+    .result-icon {
+        font-size: 2.5rem;
+    }
+
+    .result-title {
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+    }
+
+    .result-subtitle {
+        font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+        margin-bottom: 0.8rem;
+    }
+
+    .result-text {
+        font-size: clamp(0.8rem, 1.1vw, 0.9rem);
+        line-height: 1.5;
+        margin-bottom: 0.5rem;
+    }
+
+    .result-moral {
+        padding: 0.7rem 1rem;
+        margin: 0.8rem 0;
+    }
+
+    .king-frame {
+        width: clamp(70px, 12vw, 100px);
+    }
+
+    .king-speech-bubble {
+        padding: 0.6rem 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --header-height: 50px;
+    }
+
+    .characters-area {
+        gap: 1rem;
+        padding-top: calc(var(--header-height) + 45px);
+        padding-bottom: 170px;
+    }
+
+    .character-panel {
+        width: clamp(120px, 28vw, 180px);
+    }
+
+    .inventory-section {
+        padding: 0.5rem 0.8rem 0.7rem;
+    }
+
+    .inv-slot {
+        width: clamp(60px, 14vw, 90px);
+        height: clamp(45px, 7vw, 60px);
+    }
+
+    .trial-layout {
+        padding: 1rem;
+    }
+
+    .king-frame {
+        width: clamp(80px, 20vw, 120px);
+    }
+
+    .king-speech-bubble {
+        padding: 0.8rem 1rem;
+    }
+
+    .trial-cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 0.6rem;
+    }
+
+    .trial-card {
+        padding: 0.7rem;
+        min-height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .characters-area {
+        gap: 0.6rem;
+        padding-bottom: 160px;
+    }
+
+    .character-panel {
+        width: clamp(95px, 30vw, 130px);
+    }
+
+    .game-title {
+        font-size: 1.8rem;
+    }
+
+    .start-content {
+        padding: 0 0.5rem;
+    }
+
+    .inv-slot {
+        width: clamp(50px, 15vw, 70px);
+        height: clamp(40px, 7vw, 50px);
+    }
+
+    .slot-label {
+        font-size: 0.45rem;
+    }
+
+    .trial-cards-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .btn-medieval {
+        font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+        padding: 0.6rem 1.2rem;
+    }
+}
+
+/* ---------- Animation for filled slots ---------- */
+@keyframes slotFill {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.inv-slot.just-filled {
+    animation: slotFill 0.5s ease-out;
+}
+
+/* ---------- Torch flicker ambience ---------- */
+@keyframes flicker {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+    25% { opacity: 0.9; }
+    75% { opacity: 0.85; }
+}
